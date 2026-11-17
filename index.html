@@ -214,7 +214,7 @@ function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clear
 const PH='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 const CFG=(()=>{const f=window.CCTV_CONFIG||{};let l={};try{l=JSON.parse(localStorage.getItem('cctv-cfg')||'{}')}catch(e){}
   return {listName:'CCTV Checks',photoFolder:'CCTV Photos',...l,...Object.fromEntries(Object.entries(f).filter(([k,v])=>v))}})();
-const SCOPES=['User.Read','Sites.ReadWrite.All'];
+const SCOPES=['User.Read','Sites.ReadWrite.All','Sites.Manage.All'];
 let msal=null,account=null,siteId='',listId='',itemIds={},photoCache=new Map(),pollT=null;
 async function token(){
   try{return (await msal.acquireTokenSilent({scopes:SCOPES,account})).accessToken}
