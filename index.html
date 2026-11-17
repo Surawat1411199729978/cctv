@@ -224,7 +224,7 @@ async function g(path,opt={}){
   const t=await token();const headers={Authorization:'Bearer '+t,...(opt.headers||{})};let body=opt.body;
   if(opt.json){headers['Content-Type']='application/json';body=JSON.stringify(opt.json)}
   const r=await fetch(path.startsWith('http')?path:'https://graph.microsoft.com/v1.0'+path,{method:opt.method||'GET',headers,body});
-  if(!r.ok){const err=new Error('Graph '+r.status);err.status=r.status;try{err.body=await r.text()}catch(_){};throw err}
+  if(!r.ok){let b='';try{b=await r.text()}catch(_){};let m='';try{m=JSON.parse(b).error.message}catch(_){};const err=new Error((opt.method||'GET')+' '+path.split('?')[0]+(m?' : '+m:''));err.status=r.status;err.body=b;throw err}
   if(opt.raw)return r;return r.status===204?null:r.json();
 }
 const LISTCOLS=[{name:'YM',text:{}},{name:'Point',text:{}},{name:'Dept',text:{}},{name:'Status',text:{}},{name:'CheckDate',text:{}},{name:'CheckTime',text:{}},
